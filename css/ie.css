@@ -1,0 +1,9 @@
+.slider-bg {
+	POSITION: relative; BEHAVIOR: url(js/PIE.htc)
+}
+.border-img {
+	POSITION: relative; BEHAVIOR: url(js/PIE.htc)
+}
+.button {
+	POSITION: relative; behavior: url(PIE.htc)
+}
