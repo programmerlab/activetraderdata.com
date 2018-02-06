@@ -1,37 +1,106 @@
+<!DOCTYPE html>
 <html>
 <head>
-<title>Autocomplete multiselect jquery Example</title>
-<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"/>
-<link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/savanihd/multi-select-autocomplete/master/style.css"/>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script> 
-<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-<script src="https://raw.githubusercontent.com/savanihd/multi-select-autocomplete/master/autocomplete.multiselect.js"></script>
+	<title></title>
+		 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		 <link rel="stylesheet" href="https://jqueryvalidation.org/files/demo/site-demos.css">
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+  <script src="jquery.creditCardValidator.js"></script>
 </head>
 <body>
-<div class="main-div">
-	<h2>Autocomplete multiselect jquery Example</h2>
-	<input id="myAutocompleteMultiple" type="text" />
-</div>
-<script type="text/javascript">
-	$(function(){
-		var availableTags = [
-		    "Laravel",
-		    "Bootstrap",
-		    "Server",
-		    "JavaScript",
-		    "JQuery",
-		    "Perl",
-		    "PHP",
-		    "Python",
-		    "Ruby",
-		    "API",
-		    "Scheme"
-		];
-		$('#myAutocompleteMultiple').autocomplete({
-			source: availableTags,
-			multiselect: true
-		});
-	});
-</script>
+
+
+<h4>New Card</h4>
+	<form id="addCard" method="post" onsubmit="return false">
+	<div class="personal-box work-detail product-view add-card-process">
+		<div class="input-card">
+			<input type="text" placeholder="Card number" name="card_number" id="card_number">
+			<img src="{{ asset('assets/img/visa.jpg')}}" style="position:absolute; right:15px; top:15px;">
+		</div>
+		<div class="input-card">
+			<input type="text" placeholder="Name on card" name="card_name">
+		</div>
+		<div class="input-card">
+			<div class="row">
+				<div class="col-sm-8">
+					<input type="text" placeholder="MM/YY" maxlength="5"  name="expire_mm_yy" id="expire_mm_yy">
+				</div>
+				<div class="col-sm-4">
+					<input type="text" placeholder="CVV" name="cvv" id="cvv">
+				</div>
+			</div>
+		</div>
+		<div class="input-card check-click">
+			<input type="submit"   name="saveCard" value="submit"> 
+		</div>
+		<p id="c"></p>
+	</div>
+</form
+
+</body>		 
+	
+       
+
+        <script type="text/javascript">
+
+
+        	 $(function() {
+		        $('#card_number').validateCreditCard(function(result) {
+
+		            $('#c').html('Card type: ' + (result.card_type == null ? '-' : result.card_type.name)
+		                      + '<br>Valid: ' + result.valid
+		                      + '<br>Length valid: ' + result.length_valid);
+		            console.log(result.luhn_valid);
+		            if(result.valid==false){
+		            //	$('#c').html('invalid card');
+		            }
+
+		        });
+
+		        $('#cvv').keyup(function(){
+		        	var cvv = $(this).val();
+		        	if(!$.isNumeric(cvv) || (cvv.length)>4){
+	        			$('#c').html('invalid cvv');
+		        	}
+
+		        })
+		    }); 
+
+        	 jQuery('body').on('keyup', '#expire_mm_yy', function(e){
+				console.log($(this).val());
+				var val = $(this).val();
+				 var regex = /[0-9]|\./;
+				 if(regex.test(val) ==false){
+				 	$(this).val("");
+				 } 
+				var val = $(this).val();
+				if(!isNaN(val)) {
+				    if(val > 1 && val < 10 && val.length == 1) {
+				        temp_val = "0" + val + "/";
+				        $(this).val(temp_val);
+				    }
+				    else if (val >= 1 && val < 10 && val.length == 2 && e.keyCode != 8) {
+				        temp_val = val + "/";
+				        $(this).val(temp_val);			        	
+				    }
+				    else if(val > 9 && val.length == 2 && e.keyCode != 8) {
+				        temp_val = val + "/";
+				        $(this).val(temp_val);
+				    }
+				}
+				else if(val > 9 && val.length == 2 && e.keyCode != 8) {
+				      if (val > 12) {
+				        temp_val = "0" + val[0] + "/" + val[1];
+				        $(this).val(temp_val);
+				      } else {
+				        temp_val = val + "/";
+				        $(this).val(temp_val);
+				      }
+				    }
+				});
+        
+        </script>
+
 </body>
-</html>
+</html> 
